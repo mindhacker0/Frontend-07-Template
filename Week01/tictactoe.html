@@ -1,0 +1,180 @@
+<!doctype html> 
+<html lang=zh-CN xmlns:time="urn:schemas-microsoft-com:time"> 
+<head> 
+	<meta charset=UTF-8 /> <meta name=viewport content="width=device-width,initial-scale=1"/> 
+	<meta http-equiv=X-UA-Compatible content="ie=edge"/> 
+	<title></title>
+</head>
+<body>
+	<div id="cnt"></div>
+	<div id="board"></div>
+	<script type="text/javascript" src="./light.js"></script>
+	<script type="text/javascript">
+		var pattern=[
+		[0,0,0],
+		[0,0,0],
+		[0,0,0]];
+		let color=1;
+		function show(){//render board
+		    let board=document.getElementById("board");
+			board.innerHTML="";
+			for(let i=0;i<pattern.length;i++){
+				for(let j=0;j<pattern[i].length;j++){
+				   let cell=document.createElement("div");
+				   cell.classList.add("cell");
+				   cell.innerText=["","O","X"][pattern[i][j]];
+				   cell.addEventListener("click",()=>{move(i,j)})
+				   board.appendChild(cell);
+				}
+				board.appendChild(document.createElement("br"))
+			}
+		}
+		function move(i,j){//item click event
+		    pattern[i][j]=color;
+		   if(check(pattern,color)){
+			console.log(`${["","O","x"][color]} is winner`);
+		   }
+		   color=3-color;
+		   //if(willWin(pattern,color)){
+		    //console.log(`${["","O","x"][color]} will win`);
+		   //}
+		   //console.log(["","O","x"][color],bestChoice(pattern,color));
+		   show();
+		   computerMove();
+		}
+		function computerMove(){
+		   let choice=bestChoice(pattern,color);
+		   if(choice.point) pattern[choice.point[1]][choice.point[0]]=color;
+		   if(check(pattern,color)){
+			console.log(`${["","O","x"][color]} is winner`);
+		   }
+		   color=3-color;
+		   show();
+		}
+		function check(pattern,color){//check winner
+		    //row win check
+		    for(let i=0;i<pattern.length;i++){
+			    let win=true;
+			    for(let j=0;j<pattern[i].length;j++){
+			        if(pattern[i][j]!==color){
+					    win=false;
+					}
+			    }
+				if(win) return true;
+			}
+			//col win check
+		    for(let i=0;i<pattern.length;i++){
+			    let win=true;
+			    for(let j=0;j<pattern[i].length;j++){
+			        if(pattern[j][i]!==color){
+					    win=false;
+					}
+			    }
+				if(win) return true;
+			}
+			//cross corner win check
+		    {//corner top left to bottom right 
+			    let win=true;
+				for(let j=0;j<pattern.length;j++){
+					 if(pattern[j][j]!==color){
+					    win=false;
+					 }
+				}
+				if(win) return true;
+			}
+			{//corner bottom left to top right
+			    let win=true;
+				for(let j=0;j<pattern.length;j++){
+					 if(pattern[j][2-j]!==color){
+					    win=false;
+					 }
+				}
+				if(win) return true;
+			}
+			return false;
+		}
+		function clone(pattern){
+		    return JSON.parse(JSON.stringify(pattern));
+		}
+		function willWin(pattern,color){//predict next step who`ll win
+		    for(let i=0;i<pattern.length;i++){
+			    for(let j=0;j<pattern[i].length;j++){
+			        if(pattern[i][j]) continue;
+					let temp=clone(pattern);
+					temp[i][j]=color;//fill every posible place see if win
+					if(check(temp,color)) return [j,i];
+			    }
+			}
+			return null;
+		}
+		function bestChoice(pattern,color){
+			/* AI strategy:
+			* 1.win the game
+			* 2.do not lose
+			* 3.do not let competitor win
+			*/
+		    let p;
+			if(p=willWin(pattern,color)){//already find the point to win the game
+			    return {
+				    point:p,
+					result:1//1->win 0->tied -1->lost
+				}
+			}
+			let result=-2;//could not be worse
+			let point=null;
+			outer:for(let i=0;i<pattern.length;i++){
+			    for(let j=0;j<pattern[i].length;j++){
+			        if(pattern[i][j]) continue;
+					let temp=clone(pattern);
+					temp[i][j]=color;
+					let r=bestChoice(temp,3-color).result;//calculate competitor`s best choice
+					if(-r>result){//minus is because our choice against our competitor
+					   result=-r;//update our result cause we have a better choice
+					   point=[j,i];
+					}
+					if(result===1) break outer;
+				}
+			}
+			return {
+			    point:point,
+				result:point?result:0
+			}
+		}
+		show();
+		console.log(bestChoice(pattern,color));
+	</script>
+	<style>
+	.cell{
+	    width:100px;
+		height:100px;
+		background-color:green;
+		display:inline-block;
+		vertical-align:middle;
+		border:solid 1px white;
+		line-height:100px;
+		font-size:50px;
+		text-align:center;
+		color:red;
+	}
+	[class*=-light]{
+	    width:80px;
+		height:80px;
+	    display:inline-block;
+	    border-radius:50%;
+		margin:10px;
+	}
+	.light-item{
+	   background-color:gray;
+	}
+	.red-light{
+	    background-color:red;
+	}
+	.green-light{
+	    background-color:green;
+	}
+	.yellow-light{
+	    background-color:yellow;
+	}
+	</style>
+</body> 
+</html> 
