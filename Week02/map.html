@@ -1,0 +1,26 @@
+<!doctype html> 
+<html lang=zh-CN xmlns:time="urn:schemas-microsoft-com:time"> 
+<head> 
+	<title>五子棋</title>
+</head>
+<body>
+    <div id="container"></div>
+    <button onclick="localStorage['map']=JOSN.stringify(map)">save</button>
+    <script type="text/javascript" src="./mapEditor.js"></script>
+    <style>
+        #container{
+            width: 701px;
+            line-height: 7px;
+        }
+        .cell{
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: gray;
+            border-bottom:solid  1px white;
+            border-right:solid  1px white;
+            vertical-align: top;
+        }
+    </style>
+</body> 
+</html> 
