@@ -32,27 +32,67 @@ function sleep(time){
         setTimeout(rs,time);
     })
 }
-async function path(map,start,end){//Breadth-first search
-    var queue=[start];
-    async function insert(x,y){
+async function findPath(map,start,end){//Breadth-first search
+    let queue=new Sorted([start],(a,b)=>distance(a)-distance(b));
+	let table=Object.create(map);
+	function distance(point){
+		return (point[0]-end[0])**2+(point[1]-end[1])**2;
+	}
+    async function insert(x,y,pre){
         if(x<0||x>=100||y<0||y>=100) return;//border restrict
-        if(map[y*100+x]) return;//wall restrict,also passed restrict
-        await sleep(30);
+        if(table[y*100+x]) return;//wall restrict,also passed restrict
+        await sleep(5);
         container.children[y*100+x].style.backgroundColor="lightgreen";
-        map[y*100+x]=2;//sign that we have passed
-        queue.push([x,y]);
+        table[y*100+x]=pre;//sign that we have passed
+        queue.give([x,y]);
     }
     while(queue.length){
-        let [x,y]=queue.shift();
+        let [x,y]=queue.take();
         console.log(x,y);
         if(x===end[0] && y===end[1]){
-            return true;
+			let path=[];
+			while(x!=start[0]||y!=start[1]){
+				path.push(map[y*100+x]);
+				[x,y]=table[y*100+x];
+				await sleep(30);
+				container.children[y*100+x].style.backgroundColor="purple";
+			}
+			console.log(path);
+            return path;
         }
-        await insert(x-1,y);//left
-        await insert(x,y-1);//top
-        await insert(x+1,y);//right
-        await insert(x,y+1);//bottom
+        await insert(x-1,y,[x,y]);//left
+        await insert(x,y-1,[x,y]);//top
+        await insert(x+1,y,[x,y]);//right
+        await insert(x,y+1,[x,y]);//bottom
+		
+		await insert(x-1,y-1,[x,y]);
+        await insert(x+1,y-1,[x,y]);
+        await insert(x-1,y+1,[x,y]);
+        await insert(x+1,y+1,[x,y]);
     }
-    return false;
+    return null;
 }
-path(map,[3,4],[55,87]);
+class Sorted{
+	constructor(data,compare){
+		this.data=data.slice();
+		this.compare=compare|| ((a,b)=>a-b);
+	}
+	take(){
+		if(!this.data.length)return;
+		let min=this.data[0];
+		let minIndex=0;
+		for(let i=0;i<this.data.length;i++){
+			if(this.compare(this.data[i],min)<0){
+			    min=this.data[i];
+				minIndex=i;
+			}
+		}
+		this.data[minIndex]=this.data[this.data.length-1];
+		this.data.pop();
+		return min;
+	}
+	give(v){
+		this.data.push(v);
+	}
+	get length(){return this.data.length}
+}
