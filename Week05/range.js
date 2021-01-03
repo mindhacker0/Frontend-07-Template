@@ -26,17 +26,18 @@ for(let i =0;i<container.childNodes[0].textContent.length;i++){
 	//console.log(range.getBoundingClientRect());
 	ranges.push(range);
 }
+console.log(ranges);
 function getNearest(x,y){
 	let min = Infinity;
 	let nearest = null;
 	for(let range of ranges){
-		let rect = range.getBoundingClientRect();
+		let rect = range.getBoundingClientRect();//console.log(rect);
 		let distance= (rect.x-x)**2 + (rect.y-y)**2;
 		if(distance < min ){
 			nearest = range;
 			min = distance;
 		}
-		return nearest;
 	}
+	return nearest;
 }
-document.addEventListener("selectstart",e=>{e.preventDefault();})
+document.addEventListener("selectstart",e=>e.preventDefault());
