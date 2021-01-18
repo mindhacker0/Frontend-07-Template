@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>realm</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;margin:0;}</style>
+</head>
+<body>
+<div id="mountNode"></div>
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.hierarchy-0.5.0/build/hierarchy.js"></script>
+<script>
+  //$.getJSON('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json', function(data) {
+  //refer from https://tc39.es/ecma262/#sec-code-realms
+    let data={
+	  "id": "Realms",
+	  "children": [
+		{
+		  "id": "[[Intrinsics]]",
+		  "children": [
+			{ "id": "Record whose field names are intrinsic keys and whose values are objects" },
+		  ]
+		},
+		{
+		  "id": "[[GlobalObject]]",
+		  "children": [
+		    {   "id": "Value Properties of the Global Object",
+			    "children":[
+					{
+					  "id": "globalThis",
+					  "children": []
+					},
+					{
+					  "id": "Infinity",
+					  "children": []
+					},
+					{
+					  "id": "NaN",
+					  "children": []
+					},
+					{
+					  "id": "undefined",
+					  "children": []
+					}
+				]
+			},
+			{   "id": "Function Properties of the Global Object",
+			    "children":[
+					{
+					  "id": "eval",
+					  "children": []
+					},
+					{
+					  "id": "isFinite",
+					  "children": []
+					},
+					{
+					  "id": "isNaN",
+					  "children": []
+					},
+					{
+					  "id": "parseFloat",
+					  "children": []
+					},
+					{
+					  "id": "parseInt",
+					  "children": []
+					},
+					{
+					  "id": "URI Handling Functions",
+					  "children": [{
+						  "id": "decodeURI",
+						  "children": []
+					    },{
+						  "id": "encodeURI",
+						  "children": []
+						},{
+						  "id": "decodeURIComponent",
+						  "children": []
+						},{
+						  "id": "encodeURIComponent",
+						  "children": []
+						}]
+					},
+				]
+			},
+			{   "id": "Constructor Properties of the Global Object",
+			    "children":[
+					{
+					  "id": "Array",
+					  "children": []
+					},
+					{
+					  "id": "ArrayBuffer",
+					  "children": []
+					},
+					{
+					  "id": "BigInt",
+					  "children": []
+					},
+					{
+					  "id": "BigInt64Array",
+					  "children": []
+					},
+					{
+					  "id": "BigUint64Array",
+					  "children": []
+					},
+					{
+					  "id": "Boolean",
+					  "children": []
+					},
+					{
+					  "id": "DataView",
+					  "children": []
+					},
+					{
+					  "id": "Date",
+					  "children": []
+					},
+					{
+					  "id": "Error",
+					  "children": []
+					},
+					{
+					  "id": "EvalError",
+					  "children": []
+					},
+					{
+					  "id": "FinalizationRegistry",
+					  "children": []
+					},
+					{
+					  "id": "Float32Array",
+					  "children": []
+					},
+					{
+					  "id": "Float64Array",
+					  "children": []
+					},
+					{
+					  "id": "Function",
+					  "children": []
+					},
+					{
+					  "id": "Int8Array",
+					  "children": []
+					},
+					{
+					  "id": "Int16Array",
+					  "children": []
+					},
+					{
+					  "id": "Int32Array",
+					  "children": []
+					},
+					{
+					  "id": "Map",
+					  "children": []
+					},
+					{
+					  "id": "Number",
+					  "children": []
+					},
+					{
+					  "id": "Object",
+					  "children": []
+					},
+					{
+					  "id": "Promise",
+					  "children": []
+					},
+					{
+					  "id": "Proxy",
+					  "children": []
+					},
+					{
+					  "id": "RangeError",
+					  "children": []
+					},
+					{
+					  "id": "ReferenceError",
+					  "children": []
+					},
+					{
+					  "id": "RegExp",
+					  "children": []
+					},
+					{
+					  "id": "Set",
+					  "children": []
+					},
+					{
+					  "id": "SharedArrayBuffer",
+					  "children": []
+					},
+					{
+					  "id": "String",
+					  "children": []
+					},
+					{
+					  "id": "Symbol",
+					  "children": []
+					},
+					{
+					  "id": "SyntaxError",
+					  "children": []
+					},
+					{
+					  "id": "TypeError",
+					  "children": []
+					},
+					{
+					  "id": "Uint8Array",
+					  "children": []
+					},
+					{
+					  "id": "Uint8ClampedArray",
+					  "children": []
+					},
+					{
+					  "id": "Uint16Array",
+					  "children": []
+					},
+					{
+					  "id": "Uint32Array",
+					  "children": []
+					},
+					{
+					  "id": "URIError",
+					  "children": []
+					},
+					{
+					  "id": "WeakMap",
+					  "children": []
+					},
+					{
+					  "id": "WeakRef",
+					  "children": []
+					},
+					{
+					  "id": "WeakSet",
+					  "children": []
+					},
+				]
+			},
+			{   "id": "Other Properties of the Global Object",
+			    "children":[
+					{
+					  "id": "Atomics",
+					  "children": []
+					},
+					{
+					  "id": "JSON",
+					  "children": []
+					},
+					{
+					  "id": "Math",
+					  "children": []
+					},
+					{
+					  "id": "Reflect",
+					  "children": []
+					}
+				]
+			},
+		  ]
+		},
+		{
+		  "id": "[[GlobalEnv]]",
+		  "children": [
+			{ "id": "[[ObjectRecord]]" },
+			{ "id": "[[GlobalThisValue]]" },
+			{ "id": "[[DeclarativeRecord]]" },
+			{ "id": "[[VarNames]]" },
+		  ]
+		},
+		{
+		  "id": "[[TemplateMap]]",
+		  "children": [
+			{ "id": "A List of Record { [[Site]]: Parse Node, [[Array]]: Object }." },
+		  ]
+		},
+		{
+		  "id": "[[HostDefined]]",
+		  "children": [
+			{ "id": "Any, default value is undefined." },
+		  ]
+		}
+	  ]
+	};
+    var graph = new G6.TreeGraph({
+      container: 'mountNode',
+      width: window.innerWidth,
+      height: window.innerHeight,
+      pixelRatio: 2,
+      linkCenter: true,
+      modes: {
+        default: [{
+          type: 'collapse-expand',
+          onChange: function onChange(item, collapsed) {
+            var data = item.get('model').data;
+            data.collapsed = collapsed;
+            return true;
+          }
+      }, 'drag-canvas', 'zoom-canvas']
+      },
+      defaultNode: {
+        size: 16,
+        style: {
+          fill: '#40a9ff',
+          stroke: '#096dd9'
+        }
+      },
+      defaultEdge: {
+        style: {
+          stroke: '#A3B1BF'
+        }
+      },
+      layout: function layout(data) {
+        var result = Hierarchy.dendrogram(data, {
+          direction: 'LR', // H / V / LR / RL / TB / BT
+          nodeSep: 20,
+          rankSep: 100
+        });
+        G6.Util.radialLayout(result);
+        return result;
+      }
+    });
+
+    graph.node(function(node) {
+      return {
+        size: 26,
+        style: {
+          fill: '#40a9ff',
+          stroke: '#096dd9'
+        },
+        label: node.id
+      };
+    });
+
+    graph.data(data);
+    graph.render();
+    graph.fitView();
+  //});
+</script>
+</body>
+</html>
