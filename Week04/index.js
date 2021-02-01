@@ -38,7 +38,7 @@ for(let i=0;i<100000;i++){
 	trie.insert(randomWord(4));
 }
 trie.most();
-console.log(trie);
+//console.log(trie);
 function kmp(source,pattern){
 	console.log(pattern);
 	let next=new Array(pattern.length).fill(0);
@@ -55,7 +55,7 @@ function kmp(source,pattern){
 					++i;
 				}
 			}
-			console.log(j,i);
+			console.log(j,i,next);
 		}
 		console.log(next);
 	}
@@ -78,7 +78,7 @@ function kmp(source,pattern){
 		return -1;
 	}
 }
-console.log(kmp("abababcebced","ced"));
+console.log(kmp("abababcebced","abcababx"));
 function find(source,pattern){
 	let starCount=0;
 	for(let i=0;i<pattern.length;i++){
