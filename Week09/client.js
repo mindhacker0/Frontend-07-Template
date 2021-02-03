@@ -1,4 +1,5 @@
 const net = require("net");
+const parser = require("./parser.js");
 
 class Request{
 	constructor(options){
@@ -35,10 +36,10 @@ class Request{
 			connection.on("data",(data)=>{
 				//console.log("recive data",data.toString());
 				parser.recive(data.toString());
-				// if(parser.isFinished){
-				// 	resolve(parser.response);
-				// 	connection.end();
-				// }
+				if(parser.isFinished){
+					resolve(parser.response);
+					connection.end();
+				}
 			});
 			connection.on("error",(err)=>{
 				console.log("err",err);
@@ -133,7 +134,6 @@ class ResponseParser{
 			}
 		}else if(this.current === this.WAITING_BODY){
 			this.bodyParser.reciveChar(char);
-			console.log(char);
 		}
 	}
 }
@@ -195,6 +195,6 @@ void async function(){
 		}
 	});
 	let response = await request.send();
-	//let dom = parser.parseHTML(response.body);
-	console.log(response);                  	
+	let dom = parser.parseHTML(response.body);
+	//console.log(response);                  	
 }();
