@@ -11,7 +11,32 @@ function addCSSRules(text){
 	rules.push(...ast.stylesheet.rules);
 }
 
+function match(element,selector){
+	
+}
+
 function computeCSS(element){
+	var elements = stack.slice().reverse();
+	if(!element.computedStyle){
+		element.computedStyle={};
+	}
+	for(let rule of rules){
+		var selectorParts = rule.selectors[0].split("").reverse();
+		if(!match(element,selectorParts[0])
+		  continue;
+		let matched = false;
+		var j=1;
+		for(var i=0;i<elements.length;i++){
+			if(match(elements[1],selectorParts[j])){
+				j++:
+			}
+		}
+		if(j>=selectorParts.length)
+		    matched=true;
+		if(matched){
+			console.log("Element",element,"matched rule",rule);
+		}
+	}
 	console.log(rules);
 	console.log("compute css for element",element);
 }
