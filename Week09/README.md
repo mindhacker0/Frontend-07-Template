@@ -79,5 +79,26 @@ npm install css
 复杂选择器拆成针对单个元素的选择器，用循环匹配父元素队列
 ```
 
+```javascript
+第五步总结
+根据选择器的类型和元素属性，计算是否与当前元素匹配
+这里仅仅实现了三种基本选择器。实际的浏览器中要处理复合选择器
+```
 
+```javascript
+第六步总结
+一旦选择匹配，就应用选择器到元素上，行成computedStyle
+```
+
+```javascript
+specificity计算
+inline id class tag
+```
+
+```javascript
+第七步总结
+CSS规则根据specificity和后来优先规则覆盖
+specificity是一个四元组，越左边权重越高
+一个CSS规则的specificity根据包含的简单选择器相加而成
+```
 
