@@ -17,7 +17,6 @@ class Request{
 		else if(this.headers["Content-Type"]==="application/x-www-form-urlencoded")
 		    this.bodyText = Object.keys(this.body).map(key=>`${key}=${encodeURIComponent(this.body[key])}`).join("&");
 		this.headers["Content-Length"]=this.bodyText.length;
-		console.log(this.toString());
 	}
 	send(connection){
 		return new Promise((resolve,reject)=>{
@@ -29,7 +28,7 @@ class Request{
 					host:this.host,
 					port:this.port
 				},()=>{
-					console.log("create connection");
+					//console.log("create connection");
 					connection.write(this.toString());
 				});
 			}
@@ -86,8 +85,6 @@ class ResponseParser{
 		for(let i=0;i<string.length;i++){
 			this.reciveChar(string.charAt(i));
 		}
-		console.log(this.statusLine);
-		console.log(this.headers);
 	}
 	reciveChar(char){
 		if(this.current === this.WAITING_STATUS_LINE){

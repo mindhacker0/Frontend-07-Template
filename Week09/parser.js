@@ -33,10 +33,10 @@ function match(element,selector){//简单选择器class/id/tag
 function specificity(selector){
 	var p=[0,0,0,0];
 	var selectorParts=selector.split(" ");
-	for(var parts of selector){
-		if(part.charAt(0) === "#"){
+	for(var parts of selectorParts){
+		if(parts.charAt(0) === "#"){
 			p[1]+=1;
-		}else if(part.charAt(0) === "."){
+		}else if(parts.charAt(0) === "."){
 			p[2]+=1;
 		}else{
 			p[3]+=1;
@@ -50,7 +50,7 @@ function compare(sp1,sp2){
 	if(sp1[1]-sp2[1])
 	   return sp1[1]-sp2[1];
     if(sp1[2]-sp2[2])
-	   return sp1[2]-sp2[2s];
+	   return sp1[2]-sp2[2];
 }
 function computeCSS(element){
 	var elements = stack.slice().reverse();
@@ -58,7 +58,7 @@ function computeCSS(element){
 		element.computedStyle={};
 	}
 	for(let rule of rules){
-		var selectorParts = rule.selectors[0].split("").reverse();
+		var selectorParts = rule.selectors[0].split(" ").reverse();
 		if(!match(element,selectorParts[0]))
 		  continue;
 		let matched = false;
@@ -136,7 +136,6 @@ function emit(token){
 		}
 		currentTextNode.content+=token.content;
 	}
-	console.log(token);
 }
 const EOF = Symbol("EOF");
 function data(c){
