@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script>
+   let names = Object.getOwnPropertyNames(window);
+    function filterOut(names,props){
+       let set = new Set();
+       props.forEach(o =>  set.add(o));
+       return names.filter(e => !set.has(e));
+    }
+   {//base ECMA 262
+      let js = new　Set();
+      let objects = ["globalThis","console","BigInt","Infinity","NaN","undefined","eval","isFinite","RegExp",
+      "Object","Function","parseInt","parseFloat","Number","String","ArrayBuffer","Set","Map","WeakSet","WeakMap",
+      "Symbol","Proxy","encodeURI","Reflect","Request","Response","DataView","WebSocket","Date","isNaN","Storage",
+      "JSON","Math","Boolean","indexedDB","sessionStorage","localStorage","window","self","Promise","MimeType",
+      "alert","confirm","prompt","resizeTo","moveBy","postMessage","clearInterval","scrollTo","scrollBy","moveTo",
+      "screenTop","screenLeft","pageYOffset","screenX","screenY","outerWidth","outerHeight","devicePixelRatio",
+      "resizeBy","fetch","scroll","XMLHttpRequest","XMLHttpRequestEventTarget","XMLSerializer","XMLHttpRequestUpload",
+      "Window","Screen","setTimeout","clearTimeout","setInterval","Worker","Location","History","FormData","File",
+      "Blob","decodeURI","decodeURIComponent","encodeURIComponent","ReadableStream","WritableStream","WebAssembly",
+      "frames","performance","FontFace","FileReader","FileList","opener","length","top","location","document","name",
+      "history","navigator","innerWidth","innerHeight","screen","scrollX","pageXOffset","scrollY","StyleSheet","Navigator",
+      "ServiceWorker","getComputedStyle","btoa","atob","stop","open","print","escape","unescape","StyleSheetList","RemotePlayback",
+      "requestAnimationFrame","cancelAnimationFrame","ImageData","ImageBitmap","parent","blur","focus","close","WebKitMutationObserver",
+      ""
+      ];
+      objects.forEach(o=>js.add(o));
+      names = names.filter(e => !js.has(e));
+   }
+   {//subclass of node
+        names = names.filter(e=>{
+            try{
+              return !(window[e].prototype instanceof Node)
+            }catch(err){
+              return true;
+            }
+        }).filter(e =>e!="Node");
+   }
+    {//DOM
+      let objects = ["MutationRecord","MutationObserver","MutationEvent","Range","getSelection","Selection",
+      "ClientRect","ClientRectList","NodeList","NodeIterator","NodeFilter"];
+      names = filterOut(names,objects);
+      names = names.filter(e=> !e.match(/^[DOM|HTML|XPATH]/));
+   }
+   {//Array 
+      names = names.filter(e=> !e.match(/Array$/));
+   }
+   {//events
+      names = names.filter(e=> !e.match(/^on/));
+      names = names.filter(e=> !e.match(/Event$/));
+   }
+   {//WebGL
+      names = names.filter(e=> !e.match(/^WebGL/));
+   }
+   {//errors
+      names = names.filter(e=> !e.match(/Error$/));
+   }
+   {//svg canvas
+      names = filterOut(names,["Path2D","createImageBitmap","ImageBitmapRenderingContext"]);
+      names = names.filter(e=> !e.match(/^SVG/));
+      names = names.filter(e=> !e.match(/^Canvas/));
+   }
+   {//IDB
+        names = names.filter(e=> !e.match(/^IDB/));
+   }
+   {//Audio
+        names = names.filter(e=> !e.match(/^Audio/));
+   }
+   {//Media
+        names = names.filter(e=> !e.match(/^Media/));
+   }
+    {//CSS
+      names = names.filter(e=> !e.match(/^CSS/));
+   }
+   {//Performance
+      names = names.filter(e=> !e.match(/^Performance/));
+   }
+   {//unstable 
+      names = filterOut(names,["find","NavigationPreloadManager","requestIdleCallback","cancelIdleCallback",""]);
+   }
+   {//audio
+      names = filterOut(names,["ChannelSplitterNode","ChannelMergerNode","IIRFilterNode","BiquadFilterNode"]);
+   }
+   console.log(names)
+   
+</script>
+</body>
+</html>
